@@ -21,7 +21,7 @@
             zookeeper0 192.168.0.1
             zookeeper1 192.168.0.2
             zookeeper2 192.168.0.3
-    7. 进入各机器zookeeper0安装目录下conf子目录，创建zoo.cfg，添加以下内容
+    7. 进入zookeeper0安装目录下conf子目录，创建zoo.cfg，添加以下内容
             tickTime=2000
             initLimit=5
             syncLimit=2
@@ -37,4 +37,8 @@
                           说明时间限制为5倍tickTime，即5 * 2000 = 10000ms = 10s。
             * syncLimit : 该参数配置leader和follower之间发送消息，请求和应答的最大时间长度。此时该参数设置为2，
                           说明时间限制为2倍tickTime，即2 * 2000 = 4000ms = 4s。
-            * server.X=A:B:C :
+            * server.X=A:B:C : 其中X是一个数字，标志这是第几号server，A是该server的ip地址。B是该server和集群中的leader
+                               交换消息所使用的端口。C是选举leader时所使用的端口
+    8. 参照zookeeper0配置，配置zookeeper1，zookeeper2，只需修改dataDir，dataLogDir，clentPort参数即可
+    9. 在之前设置的dataDir的路径中新建myid文件，写入一个数字，该数字表示这是第几号server。该数字必须和zoo.cfg文件中的
+       server.X中的X一一对应。zookeeper0 myid 中写入 0，zookeeper1 myid 中写入1，zookeeper2 myid 中写入2。
